@@ -1,0 +1,5 @@
+# Configuración de compilación para Railway / Nixpacks
+# Necesario para compilar dependencias nativas de C++ como better-sqlite3
+
+[phases.setup]
+nixPkgs = ["python3", "gcc", "gnumake"]
