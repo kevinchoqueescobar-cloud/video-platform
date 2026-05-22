@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="VideoPlatform - Panel de Administrador"/>
+  <title>VideoPlatform - Administrador</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body class="dashboard-body">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="logo-icon-sm">▶</div>
+        <span>VideoPlatform</span>
+      </div>
+      <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar menú">✕</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-tab="dashboard" id="navDashboard">
+        <span class="nav-icon">📊</span> Dashboard
+      </button>
+      <button class="nav-item" data-tab="clients" id="navClients">
+        <span class="nav-icon">👥</span> Clientes
+      </button>
+      <button class="nav-item" data-tab="videos" id="navVideos">
+        <span class="nav-icon">🎬</span> Mis Videos
+      </button>
+      <button class="nav-item" data-tab="assignments" id="navAssignments">
+        <span class="nav-icon">📋</span> Asignaciones
+      </button>
+      <button class="nav-item" data-tab="submissions" id="navSubmissions">
+        <span class="nav-icon">📤</span> Entregas
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">A</div>
+        <div>
+          <div class="user-name" id="sidebarUserName">Administrador</div>
+          <div class="user-role">Administrador</div>
+        </div>
+      </div>
+      <button class="btn-logout" id="logoutBtn" title="Cerrar sesión">⏻</button>
+    </div>
+  </aside>
+
+  <!-- Mobile overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <header class="top-bar">
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú">☰</button>
+      <div class="top-bar-title" id="pageTitle">Dashboard</div>
+      <div class="top-bar-right">
+        <span class="badge-admin">Admin</span>
+      </div>
+    </header>
+
+    <!-- ====== TAB: DASHBOARD ====== -->
+    <section class="tab-content active" id="tabDashboard">
+      <div class="page-header">
+        <h2>Bienvenido, <span id="adminName">Administrador</span></h2>
+        <p class="page-sub">Panel de control y resumen general</p>
+      </div>
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statClients">0</div>
+            <div class="stat-label">Clientes</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎬</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statVideos">0</div>
+            <div class="stat-label">Videos Subidos</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📋</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statAssignments">0</div>
+            <div class="stat-label">Asignaciones</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📤</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statSubmissions">0</div>
+            <div class="stat-label">Entregas</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="recent-section">
+        <h3>Entregas Recientes</h3>
+        <div class="table-wrapper">
+          <table class="data-table" id="recentSubmissionsTable">
+            <thead>
+              <tr>
+                <th>Cliente</th><th>Tarea</th><th>Fecha Entrega</th><th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="recentSubmissionsBody">
+              <tr><td colspan="4" class="empty-state">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== TAB: CLIENTS ====== -->
+    <section class="tab-content" id="tabClients">
+      <div class="page-header">
+        <h2>Gestión de Clientes</h2>
+        <button class="btn btn-primary" id="openRegisterModal">+ Registrar Cliente</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table" id="clientsTable">
+          <thead>
+            <tr>
+              <th>#</th><th>Nombre</th><th>Teléfono</th><th>Usuario</th>
+              <th>Videos Asignados</th><th>Entregas</th><th>Estado</th><th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="clientsTableBody">
+            <tr><td colspan="8" class="empty-state">Cargando clientes...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====== TAB: VIDEOS ====== -->
+    <section class="tab-content" id="tabVideos">
+      <div class="page-header">
+        <h2>Videos de Entrenamiento</h2>
+        <button class="btn btn-primary" id="openUploadModal">+ Subir Video</button>
+      </div>
+
+      <div class="video-grid" id="adminVideoGrid">
+        <div class="empty-state-card">Cargando videos...</div>
+      </div>
+    </section>
+
+    <!-- ====== TAB: ASSIGNMENTS ====== -->
+    <section class="tab-content" id="tabAssignments">
+      <div class="page-header">
+        <h2>Asignaciones de Videos</h2>
+        <button class="btn btn-primary" id="openAssignModal">+ Nueva Asignación</button>
+      </div>
+
+      <div class="filter-bar">
+        <label for="filterClient">Filtrar por cliente:</label>
+        <select id="filterClient" class="form-select">
+          <option value="">Todos los clientes</option>
+        </select>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Cliente</th><th>Video Asignado</th><th>Fecha Asignación</th><th>Estado</th><th>Entregas</th><th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="assignmentsTableBody">
+            <tr><td colspan="6" class="empty-state">Cargando asignaciones...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====== TAB: SUBMISSIONS ====== -->
+    <section class="tab-content" id="tabSubmissions">
+      <div class="page-header">
+        <h2>Entregas de Clientes</h2>
+      </div>
+
+      <div class="filter-bar">
+        <label for="filterSubmissionClient">Filtrar por cliente:</label>
+        <select id="filterSubmissionClient" class="form-select">
+          <option value="">Todos los clientes</option>
+        </select>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Cliente</th><th>Tarea</th><th>Archivo</th><th>Tamaño</th><th>Fecha Entrega</th><th>Ver</th>
+            </tr>
+          </thead>
+          <tbody id="submissionsTableBody">
+            <tr><td colspan="6" class="empty-state">Cargando entregas...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== MODALS ===== -->
+
+  <!-- Register Client Modal -->
+  <div class="modal-overlay" id="registerModal">
+    <div class="modal glass">
+      <div class="modal-header">
+        <h3>Registrar Nuevo Cliente</h3>
+        <button class="modal-close" data-modal="registerModal">✕</button>
+      </div>
+      <form id="registerForm" novalidate>
+        <div class="form-group">
+          <label for="regName">Nombre completo</label>
+          <input type="text" id="regName" placeholder="Ej: Juan Pérez" required/>
+        </div>
+        <div class="form-group">
+          <label for="regPhone">Teléfono</label>
+          <input type="tel" id="regPhone" placeholder="Ej: 5512345678" required/>
+        </div>
+        <div class="credentials-preview hidden" id="credentialsPreview">
+          <h4>Credenciales asignadas:</h4>
+          <div class="cred-row"><span>Usuario:</span> <code id="prevUser"></code></div>
+          <div class="cred-row"><span>Contraseña:</span> <code id="prevPass"></code></div>
+        </div>
+        <div id="registerError" class="alert alert-error hidden"></div>
+        <div id="registerSuccess" class="alert alert-success hidden"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" data-modal="registerModal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="registerBtn">Registrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Upload Video Modal -->
+  <div class="modal-overlay" id="uploadModal">
+    <div class="modal glass">
+      <div class="modal-header">
+        <h3>Subir Video de Entrenamiento</h3>
+        <button class="modal-close" data-modal="uploadModal">✕</button>
+      </div>
+      <form id="uploadForm" enctype="multipart/form-data" novalidate>
+        <div class="form-group">
+          <label for="videoTitle">Título del video</label>
+          <input type="text" id="videoTitle" placeholder="Ej: Ejercicio de calentamiento" required/>
+        </div>
+        <div class="form-group">
+          <label for="videoDesc">Descripción (opcional)</label>
+          <textarea id="videoDesc" placeholder="Describe el ejercicio o tarea..." rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Archivo de video (máx. 50MB)</label>
+          <div class="drop-zone" id="adminDropZone">
+            <div class="drop-zone-icon">🎬</div>
+            <div class="drop-zone-text">Arrastra un video aquí o haz clic para seleccionar</div>
+            <div class="drop-zone-sub">MP4, MOV, AVI, MKV, WebM — Máx. 50MB</div>
+            <input type="file" id="adminVideoFile" name="video" accept="video/*" class="drop-zone-input"/>
+          </div>
+          <div class="file-selected hidden" id="adminFileSelected"></div>
+        </div>
+        <div class="upload-progress hidden" id="adminUploadProgress">
+          <div class="progress-bar"><div class="progress-fill" id="adminProgressFill"></div></div>
+          <div class="progress-text" id="adminProgressText">Subiendo...</div>
+        </div>
+        <div id="uploadError" class="alert alert-error hidden"></div>
+        <div id="uploadSuccess" class="alert alert-success hidden"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" data-modal="uploadModal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="uploadBtn">Subir Video</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Assign Video Modal -->
+  <div class="modal-overlay" id="assignModal">
+    <div class="modal glass modal-lg">
+      <div class="modal-header">
+        <h3>Asignar Video a Clientes</h3>
+        <button class="modal-close" data-modal="assignModal">✕</button>
+      </div>
+      <div class="form-group">
+        <label for="assignVideoSelect">Selecciona el video</label>
+        <select id="assignVideoSelect" class="form-select">
+          <option value="">-- Seleccionar video --</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Selecciona clientes</label>
+        <div class="client-checklist" id="clientChecklist"></div>
+      </div>
+      <div id="assignError" class="alert alert-error hidden"></div>
+      <div id="assignSuccess" class="alert alert-success hidden"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-modal="assignModal">Cancelar</button>
+        <button class="btn btn-primary" id="assignBtn">Asignar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Preview Modal -->
+  <div class="modal-overlay" id="videoModal">
+    <div class="modal glass modal-lg">
+      <div class="modal-header">
+        <h3 id="videoModalTitle">Video</h3>
+        <button class="modal-close" data-modal="videoModal">✕</button>
+      </div>
+      <video id="videoPlayer" controls class="video-player">
+        Tu navegador no soporta video HTML5.
+      </video>
+    </div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

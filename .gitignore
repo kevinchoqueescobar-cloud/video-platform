@@ -1,0 +1,27 @@
+# Dependencias
+node_modules/
+
+# Base de datos local (Railway usará la suya propia)
+platform.db
+platform.db-shm
+platform.db-wal
+
+# Videos subidos (Railway tiene su propio volumen)
+uploads/admin-videos/*
+uploads/client-videos/*
+
+# Conservar carpetas vacías en git
+!uploads/admin-videos/.gitkeep
+!uploads/client-videos/.gitkeep
+
+# Variables de entorno
+.env
+.env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db

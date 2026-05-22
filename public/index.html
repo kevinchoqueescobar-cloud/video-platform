@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="VideoPlatform - Plataforma de gestión y entrega de videos"/>
+  <title>VideoPlatform - Iniciar Sesión</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body class="auth-body">
+  <div class="auth-bg">
+    <div class="auth-bg-orb orb1"></div>
+    <div class="auth-bg-orb orb2"></div>
+    <div class="auth-bg-orb orb3"></div>
+  </div>
+
+  <div class="auth-container">
+    <div class="auth-card glass">
+      <div class="auth-logo">
+        <div class="logo-icon">▶</div>
+        <h1 class="logo-text">VideoPlatform</h1>
+        <p class="logo-sub">Plataforma de Gestión de Videos</p>
+      </div>
+
+      <form id="loginForm" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="username">Usuario</label>
+          <div class="input-wrapper">
+            <span class="input-icon">👤</span>
+            <input type="text" id="username" name="username" placeholder="Ingresa tu usuario" autocomplete="username" required/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" autocomplete="current-password" required/>
+            <button type="button" class="toggle-pass" id="togglePass" aria-label="Mostrar contraseña">👁</button>
+          </div>
+        </div>
+
+        <div id="loginError" class="alert alert-error hidden"></div>
+
+        <button type="submit" class="btn btn-primary btn-full" id="loginBtn">
+          <span>Iniciar Sesión</span>
+          <div class="btn-spinner hidden" id="loginSpinner"></div>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <p>¿No tienes cuenta? Contacta al administrador.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/login.js"></script>
+</body>
+</html>

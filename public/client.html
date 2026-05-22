@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="VideoPlatform - Panel de Cliente"/>
+  <title>VideoPlatform - Mi Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body class="dashboard-body">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="logo-icon-sm">▶</div>
+        <span>VideoPlatform</span>
+      </div>
+      <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar menú">✕</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-tab="myTasks" id="navMyTasks">
+        <span class="nav-icon">📋</span> Mis Tareas
+      </button>
+      <button class="nav-item" data-tab="mySubmissions" id="navMySubmissions">
+        <span class="nav-icon">📤</span> Mis Entregas
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar client-avatar" id="clientAvatarLetter">C</div>
+        <div>
+          <div class="user-name" id="sidebarUserName">Cliente</div>
+          <div class="user-role">Cliente</div>
+        </div>
+      </div>
+      <button class="btn-logout" id="logoutBtn" title="Cerrar sesión">⏻</button>
+    </div>
+  </aside>
+
+  <!-- Mobile overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <header class="top-bar">
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú">☰</button>
+      <div class="top-bar-title" id="pageTitle">Mis Tareas</div>
+      <div class="top-bar-right">
+        <span class="badge-client">Cliente</span>
+      </div>
+    </header>
+
+    <!-- ====== TAB: MIS TAREAS ====== -->
+    <section class="tab-content active" id="tabMyTasks">
+      <div class="page-header">
+        <h2>Mis Tareas de Video</h2>
+        <p class="page-sub">Videos que debes realizar y entregar</p>
+      </div>
+
+      <div class="task-stats">
+        <div class="task-stat-pill pending-pill">
+          <span id="pendingCount">0</span> Pendientes
+        </div>
+        <div class="task-stat-pill done-pill">
+          <span id="completedCount">0</span> Completadas
+        </div>
+      </div>
+
+      <div class="tasks-container" id="tasksContainer">
+        <div class="empty-state-card">Cargando tareas...</div>
+      </div>
+    </section>
+
+    <!-- ====== TAB: MIS ENTREGAS ====== -->
+    <section class="tab-content" id="tabMySubmissions">
+      <div class="page-header">
+        <h2>Mis Entregas</h2>
+        <p class="page-sub">Historial de videos que has entregado</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Tarea</th><th>Archivo Entregado</th><th>Tamaño</th><th>Fecha y Hora</th><th>Ver</th>
+            </tr>
+          </thead>
+          <tbody id="mySubmissionsBody">
+            <tr><td colspan="5" class="empty-state">Cargando entregas...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== MODALS ===== -->
+
+  <!-- Submit Video Modal -->
+  <div class="modal-overlay" id="submitModal">
+    <div class="modal glass">
+      <div class="modal-header">
+        <h3>Entregar Video</h3>
+        <button class="modal-close" data-modal="submitModal">✕</button>
+      </div>
+      <div class="task-info-box" id="submitTaskInfo"></div>
+      <form id="submitForm" enctype="multipart/form-data" novalidate>
+        <input type="hidden" id="submitAssignmentId"/>
+        <div class="form-group">
+          <label>Tu video realizado (máx. 50MB)</label>
+          <div class="drop-zone" id="clientDropZone">
+            <div class="drop-zone-icon">📹</div>
+            <div class="drop-zone-text">Arrastra tu video aquí o haz clic para seleccionar</div>
+            <div class="drop-zone-sub">MP4, MOV, AVI, MKV, WebM — Máx. 50MB</div>
+            <input type="file" id="clientVideoFile" name="video" accept="video/*" class="drop-zone-input"/>
+          </div>
+          <div class="file-selected hidden" id="clientFileSelected"></div>
+        </div>
+        <div class="form-group">
+          <label for="submitNotes">Notas (opcional)</label>
+          <textarea id="submitNotes" placeholder="¿Algún comentario sobre tu entrega?" rows="2"></textarea>
+        </div>
+        <div class="upload-progress hidden" id="clientUploadProgress">
+          <div class="progress-bar"><div class="progress-fill" id="clientProgressFill"></div></div>
+          <div class="progress-text" id="clientProgressText">Subiendo...</div>
+        </div>
+        <div id="submitError" class="alert alert-error hidden"></div>
+        <div id="submitSuccess" class="alert alert-success hidden"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" data-modal="submitModal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="submitBtn">Entregar Video</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Video Preview Modal -->
+  <div class="modal-overlay" id="videoModal">
+    <div class="modal glass modal-lg">
+      <div class="modal-header">
+        <h3 id="videoModalTitle">Ver Video</h3>
+        <button class="modal-close" data-modal="videoModal">✕</button>
+      </div>
+      <video id="videoPlayer" controls class="video-player">
+        Tu navegador no soporta video HTML5.
+      </video>
+    </div>
+  </div>
+
+  <script src="/js/client.js"></script>
+</body>
+</html>
